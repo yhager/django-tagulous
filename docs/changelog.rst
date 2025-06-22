@@ -13,6 +13,14 @@ Changes for upcoming releases will be listed without a release date - these
 are available by installing the develop branch from github.
 
 
+2.1.1, 2025-06-23
+-----------------
+
+Bugfix:
+
+* Select2 v4 adaptor now correctly handles new values in the input field
+
+
 2.1.0, 2024-08-28
 -----------------
 
