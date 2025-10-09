@@ -62,7 +62,10 @@ def monkeypatch_get_model(serializer):
     Given a model identifier, get the model - unless it's a TaggedModel, in
     which case return a temporary fake model to get it serialized.
     """
-    old_get_model = serializer._get_model
+    try:
+        old_get_model = serializer.Deserializer._get_model_from_node
+    except AttributeError:
+        old_get_model = serializer._get_model
 
     def _get_model(model_identifier):
         RealModel = old_get_model(model_identifier)
@@ -74,4 +77,7 @@ def monkeypatch_get_model(serializer):
 
         return Model
 
-    serializer._get_model = _get_model
+    if hasattr(serializer.Deserializer, "_get_model_from_node"):
+        serializer.Deserializer._get_model_from_node = staticmethod(_get_model)
+    else:
+        serializer._get_model = _get_model
